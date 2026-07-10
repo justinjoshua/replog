@@ -1,0 +1,112 @@
+import {
+  LayoutGrid,
+  Plus,
+  History as HistoryIcon,
+  Dumbbell,
+  Sparkles,
+  Search,
+  Star,
+  Trash2,
+  ChevronDown,
+  ChevronUp,
+  Flame,
+  Timer,
+  Zap,
+  Dices,
+  TrendingUp,
+  CalendarDays,
+  Play,
+  X,
+  Check,
+  Activity,
+  Weight,
+  HeartPulse,
+  Hand,
+  PersonStanding,
+  Footprints,
+  Shield,
+  CircleUser,
+  Target,
+  Clock,
+  Pencil,
+  ListChecks,
+  Palette,
+  ClipboardList,
+  ChevronRight,
+  Trophy,
+} from "lucide-react";
+
+// Single mapping so the whole app draws from one consistent, outlined set.
+const MAP = {
+  dashboard: LayoutGrid,
+  log: Plus,
+  plus: Plus,
+  history: HistoryIcon,
+  exercises: Dumbbell,
+  dumbbell: Dumbbell,
+  coach: Sparkles,
+  sparkles: Sparkles,
+  search: Search,
+  star: Star,
+  trash: Trash2,
+  chevronDown: ChevronDown,
+  chevronUp: ChevronUp,
+  flame: Flame,
+  timer: Timer,
+  clock: Clock,
+  zap: Zap,
+  dice: Dices,
+  trending: TrendingUp,
+  calendar: CalendarDays,
+  play: Play,
+  close: X,
+  check: Check,
+  activity: Activity,
+  weight: Weight,
+  heart: HeartPulse,
+  hand: Hand,
+  standing: PersonStanding,
+  footprints: Footprints,
+  shield: Shield,
+  user: CircleUser,
+  target: Target,
+  pencil: Pencil,
+  list: ListChecks,
+  palette: Palette,
+  programs: ClipboardList,
+  chevronRight: ChevronRight,
+  trophy: Trophy,
+};
+
+// Muscle group → icon name (keeps exercise visuals consistent, no emojis).
+const MUSCLE_ICON = {
+  Chest: "shield",
+  Back: "activity",
+  Shoulders: "shield",
+  Biceps: "dumbbell",
+  Triceps: "dumbbell",
+  Legs: "footprints",
+  Glutes: "footprints",
+  Core: "flame",
+  Cardio: "heart",
+  "Full Body": "zap",
+};
+export const muscleIcon = (m) => MUSCLE_ICON[m] || "dumbbell";
+
+// Equipment → icon, for the small badge on each exercise card.
+const EQUIP_ICON = {
+  Barbell: "weight",
+  Dumbbell: "dumbbell",
+  Machine: "settings",
+  Cable: "activity",
+  Bodyweight: "standing",
+  Kettlebell: "dumbbell",
+  Band: "activity",
+  Other: "dumbbell",
+};
+export const equipIcon = (e) => EQUIP_ICON[e] || "dumbbell";
+
+export default function Icon({ name, size = 20, strokeWidth = 1.75, className, ...rest }) {
+  const Cmp = MAP[name] || Activity;
+  return <Cmp size={size} strokeWidth={strokeWidth} className={className} {...rest} />;
+}

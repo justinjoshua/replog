@@ -1,0 +1,22 @@
+# dependencies & build output
+node_modules/
+dist/
+build/
+.vite/
+
+# secrets — never commit
+.env
+.env.local
+.env.*.local
+
+# local database data
+.data/
+
+# ExerciseDB demo media (licensed via RapidAPI — not redistributable).
+# Re-sync locally with a RapidAPI key using the scripts in the README.
+client/public/exgif/
+
+# misc
+.DS_Store
+*.log
+npm-debug.log*

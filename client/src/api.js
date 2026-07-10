@@ -1,9 +1,24 @@
-// Tiny fetch wrapper for the backend JSON API.
+const TOKEN_KEY = "replog.token";
+export const getToken = () => localStorage.getItem(TOKEN_KEY);
+export const setToken = (t) =>
+  t ? localStorage.setItem(TOKEN_KEY, t) : localStorage.removeItem(TOKEN_KEY);
+
+// Tiny fetch wrapper for the backend JSON API. Attaches the auth token and, on
+// a 401, clears it and notifies the app to return to the login screen.
 async function req(path, options = {}) {
+  const token = getToken();
   const res = await fetch(`/api${path}`, {
-    headers: { "Content-Type": "application/json" },
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(options.headers || {}),
+    },
   });
+  if (res.status === 401) {
+    setToken(null);
+    window.dispatchEvent(new Event("replog:unauthorized"));
+  }
   if (!res.ok) {
     let msg = `Request failed (${res.status})`;
     try {
@@ -18,6 +33,11 @@ async function req(path, options = {}) {
 }
 
 export const api = {
+  // auth
+  register: (body) => req("/auth/register", { method: "POST", body: JSON.stringify(body) }),
+  login: (body) => req("/auth/login", { method: "POST", body: JSON.stringify(body) }),
+  me: () => req("/auth/me"),
+
   // exercises
   listExercises: (params = "") => req(`/exercises${params}`),
   exerciseGroups: (params = "") => req(`/exercises/groups${params}`),

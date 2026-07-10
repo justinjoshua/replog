@@ -16,6 +16,10 @@ portfolio piece with a premium, themeable, mobile-first dark UI.
 
 ## ✨ Features
 
+### Accounts
+- **🔐 Auth** — email/password sign-up & login (JWT + bcrypt). Every user's workouts,
+  stats and AI coaching are **private and scoped to their account**.
+
 ### Train
 - **📋 Built-in programs** — 12 professionally-structured splits across Beginner →
   Advanced (Full Body, Upper/Lower, PPL 3-/6-day, Arnold, Bro Split, Powerbuilding,
@@ -122,6 +126,8 @@ Copy `server/.env.example` → `server/.env` and set what you need:
 | Method | Route | Purpose |
 |--------|-------|---------|
 | `GET` | `/api/health` | Health check |
+| `POST` | `/api/auth/register` · `/login` | Create account / sign in → JWT |
+| `GET` | `/api/auth/me` | Current user (from Bearer token) |
 | `GET/POST/DELETE` | `/api/exercises` | Exercise library (filter `?muscle=&equipment=&q=`) |
 | `GET` | `/api/exercises/groups` | Variations clustered by base movement |
 | `GET/POST/PUT/DELETE` | `/api/workouts` | Workout CRUD |

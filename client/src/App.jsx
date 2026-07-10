@@ -7,7 +7,9 @@ import Logo from "./components/Logo.jsx";
 import ThemePicker from "./components/ThemePicker.jsx";
 import { ExerciseViewerProvider } from "./components/ExerciseViewer.jsx";
 import { useTheme } from "./hooks/useTheme.js";
+import { AuthProvider, useAuth } from "./hooks/useAuth.jsx";
 
+import Login from "./pages/Login.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import LogWorkout from "./pages/LogWorkout.jsx";
 import History from "./pages/History.jsx";
@@ -25,18 +27,40 @@ const NAV = [
   { to: "/coach", label: "Coach", ico: "coach" },
 ];
 
+const initials = (name = "") =>
+  name.trim().split(/\s+/).map((w) => w[0]).slice(0, 2).join("").toUpperCase() || "?";
+
 export default function App() {
+  return (
+    <AuthProvider>
+      <ToastProvider>
+        <Shell />
+      </ToastProvider>
+    </AuthProvider>
+  );
+}
+
+function Shell() {
+  const { user, loading, logout } = useAuth();
+  const { themeKey, setThemeKey } = useTheme(); // theme applies on the login screen too
   const [aiOn, setAiOn] = useState(false);
   const location = useLocation();
-  const { themeKey, setThemeKey } = useTheme();
 
   useEffect(() => {
-    api.aiStatus().then((s) => setAiOn(s.enabled)).catch(() => {});
-  }, []);
+    if (user) api.aiStatus().then((s) => setAiOn(s.enabled)).catch(() => {});
+  }, [user]);
+
+  if (loading)
+    return (
+      <div className="auth-screen">
+        <span className="spinner" style={{ width: 32, height: 32, borderWidth: 3 }} />
+      </div>
+    );
+
+  if (!user) return <Login />;
 
   return (
-    <ToastProvider>
-     <ExerciseViewerProvider aiOn={aiOn}>
+    <ExerciseViewerProvider aiOn={aiOn}>
       <div className="app">
         {/* Desktop side navigation */}
         <aside className="sidebar">
@@ -57,10 +81,22 @@ export default function App() {
             </NavLink>
           ))}
           <div className="spacer" />
-          <ThemePicker themeKey={themeKey} onPick={setThemeKey} align="up" />
           <div className="ai-badge">
             <span className={"dot" + (aiOn ? " on" : "")} />
             {aiOn ? "AI features on" : "AI off — add key"}
+          </div>
+          <div className="row" style={{ gap: 6, marginTop: 4 }}>
+            <ThemePicker themeKey={themeKey} onPick={setThemeKey} align="up" compact />
+            <div className="user-row">
+              <span className="user-avatar">{initials(user.name)}</span>
+              <div className="user-info">
+                <div className="user-name">{user.name}</div>
+                <div className="user-email">{user.email}</div>
+              </div>
+              <button className="btn ghost icon sm" onClick={logout} title="Sign out">
+                <Icon name="logout" size={17} />
+              </button>
+            </div>
           </div>
         </aside>
 
@@ -70,9 +106,11 @@ export default function App() {
             <span className="logo"><Logo size={20} /></span>
             <span>RepLog</span>
           </div>
-          <div className="row" style={{ gap: 10 }}>
+          <div className="row" style={{ gap: 8 }}>
             <ThemePicker themeKey={themeKey} onPick={setThemeKey} align="down" compact />
-            <span className={"dot" + (aiOn ? " on" : "")} title={aiOn ? "AI on" : "AI off"} />
+            <button className="btn ghost icon sm" onClick={logout} title="Sign out">
+              <Icon name="logout" size={18} />
+            </button>
           </div>
         </header>
 
@@ -105,7 +143,6 @@ export default function App() {
           ))}
         </nav>
       </div>
-     </ExerciseViewerProvider>
-    </ToastProvider>
+    </ExerciseViewerProvider>
   );
 }

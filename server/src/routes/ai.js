@@ -1,6 +1,7 @@
 import { Router } from "express";
 import Workout from "../models/Workout.js";
 import * as gemini from "../services/gemini.js";
+import { requireAuth } from "../middleware/auth.js";
 
 const router = Router();
 
@@ -55,10 +56,10 @@ router.post("/exercise-guide", async (req, res, next) => {
 });
 
 // POST /api/ai/coach -> markdown coaching report based on recent history
-router.post("/coach", async (req, res, next) => {
+router.post("/coach", requireAuth, async (req, res, next) => {
   if (!requireAI(res)) return;
   try {
-    const workouts = await Workout.find().sort({ date: -1 }).limit(20);
+    const workouts = await Workout.find({ user: req.userId }).sort({ date: -1 }).limit(20);
     if (!workouts.length)
       return res.json({ report: "Log a few workouts first and I'll analyze your progress." });
     res.json({ report: await gemini.coach(buildSummary(workouts)) });

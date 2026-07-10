@@ -34,6 +34,7 @@ import {
   ClipboardList,
   ChevronRight,
   Trophy,
+  LogOut,
 } from "lucide-react";
 
 // Single mapping so the whole app draws from one consistent, outlined set.
@@ -76,6 +77,7 @@ const MAP = {
   programs: ClipboardList,
   chevronRight: ChevronRight,
   trophy: Trophy,
+  logout: LogOut,
 };
 
 // Muscle group → icon name (keeps exercise visuals consistent, no emojis).

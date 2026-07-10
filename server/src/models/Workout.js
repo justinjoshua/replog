@@ -23,6 +23,7 @@ const entrySchema = new mongoose.Schema(
 
 const workoutSchema = new mongoose.Schema(
   {
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true, index: true },
     title: { type: String, trim: true, default: "Workout" },
     date: { type: Date, default: Date.now },
     notes: { type: String, default: "" },

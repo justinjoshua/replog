@@ -1,7 +1,11 @@
 import { Router } from "express";
 import Workout from "../models/Workout.js";
+import { requireAuth } from "../middleware/auth.js";
 
 const router = Router();
+
+// Stats are per-user.
+router.use(requireAuth);
 
 const volumeOf = (w) =>
   w.exercises.reduce(
@@ -15,7 +19,7 @@ const epley = (weight, reps) => (reps > 0 ? weight * (1 + reps / 30) : 0);
 // GET /api/stats/summary — dashboard headline numbers
 router.get("/summary", async (req, res, next) => {
   try {
-    const workouts = await Workout.find().sort({ date: -1 });
+    const workouts = await Workout.find({ user: req.userId }).sort({ date: -1 });
     const now = new Date();
     const weekAgo = new Date(now.getTime() - 7 * 864e5);
 
@@ -41,7 +45,7 @@ router.get("/volume", async (req, res, next) => {
   try {
     const days = Math.min(Number(req.query.days) || 30, 365);
     const since = new Date(Date.now() - days * 864e5);
-    const workouts = await Workout.find({ date: { $gte: since } }).sort({ date: 1 });
+    const workouts = await Workout.find({ user: req.userId, date: { $gte: since } }).sort({ date: 1 });
 
     const byDay = new Map();
     for (const w of workouts) {
@@ -57,7 +61,7 @@ router.get("/volume", async (req, res, next) => {
 // GET /api/stats/prs — best estimated 1RM per exercise
 router.get("/prs", async (req, res, next) => {
   try {
-    const workouts = await Workout.find();
+    const workouts = await Workout.find({ user: req.userId });
     const best = new Map(); // name -> { e1rm, weight, reps, date }
     for (const w of workouts) {
       for (const ex of w.exercises) {
@@ -88,7 +92,7 @@ router.get("/prs", async (req, res, next) => {
 router.get("/exercise/:name", async (req, res, next) => {
   try {
     const name = req.params.name;
-    const workouts = await Workout.find({ "exercises.name": name }).sort({ date: 1 });
+    const workouts = await Workout.find({ user: req.userId, "exercises.name": name }).sort({ date: 1 });
     const series = [];
     for (const w of workouts) {
       let best = 0;

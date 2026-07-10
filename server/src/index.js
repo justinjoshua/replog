@@ -4,6 +4,7 @@ import cors from "cors";
 import { connectDB } from "./db.js";
 import { seedExercises } from "./seed.js";
 
+import authRouter from "./routes/auth.js";
 import exercisesRouter from "./routes/exercises.js";
 import workoutsRouter from "./routes/workouts.js";
 import statsRouter from "./routes/stats.js";
@@ -36,6 +37,7 @@ async function main() {
   app.use(express.json({ limit: "1mb" }));
 
   app.get("/api/health", (req, res) => res.json({ ok: true }));
+  app.use("/api/auth", authRouter);
   app.use("/api/exercises", exercisesRouter);
   app.use("/api/workouts", workoutsRouter);
   app.use("/api/stats", statsRouter);

@@ -10,6 +10,7 @@ import { useTheme } from "./hooks/useTheme.js";
 import { AuthProvider, useAuth } from "./hooks/useAuth.jsx";
 
 import Login from "./pages/Login.jsx";
+import Landing from "./pages/Landing.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import LogWorkout from "./pages/LogWorkout.jsx";
 import History from "./pages/History.jsx";
@@ -42,8 +43,9 @@ export default function App() {
 
 function Shell() {
   const { user, loading, logout } = useAuth();
-  const { themeKey, setThemeKey } = useTheme(); // theme applies on the login screen too
+  const { themeKey, setThemeKey } = useTheme(); // theme applies on the landing/login too
   const [aiOn, setAiOn] = useState(false);
+  const [authMode, setAuthMode] = useState(null); // null = landing, 'login' | 'register' = auth form
   const location = useLocation();
 
   useEffect(() => {
@@ -57,7 +59,12 @@ function Shell() {
       </div>
     );
 
-  if (!user) return <Login />;
+  // Logged out: marketing landing first; login/register is an option from it.
+  if (!user) {
+    return authMode
+      ? <Login initialMode={authMode} onBack={() => setAuthMode(null)} />
+      : <Landing onAuth={setAuthMode} />;
+  }
 
   return (
     <ExerciseViewerProvider aiOn={aiOn}>

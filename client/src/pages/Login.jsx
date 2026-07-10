@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useAuth } from "../hooks/useAuth.jsx";
 import Logo from "../components/Logo.jsx";
 import Icon from "../components/Icon.jsx";
+import { LOGIN_BG } from "../lib/images.js";
 
-export default function Login() {
+export default function Login({ initialMode = "login", onBack }) {
   const { login, register } = useAuth();
-  const [mode, setMode] = useState("login"); // 'login' | 'register'
+  const [mode, setMode] = useState(initialMode); // 'login' | 'register'
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -28,8 +29,16 @@ export default function Login() {
   }
 
   return (
-    <div className="auth-screen">
+    <div
+      className="auth-screen has-photo"
+      style={{ backgroundImage: `linear-gradient(rgba(8,8,10,0.72), rgba(8,8,10,0.88)), url(${LOGIN_BG})` }}
+    >
       <div className="auth-card">
+        {onBack && (
+          <button className="link-btn auth-back" onClick={onBack}>
+            <Icon name="chevronRight" size={15} style={{ transform: "rotate(180deg)" }} /> Back
+          </button>
+        )}
         <div className="auth-brand">
           <span className="logo"><Logo size={24} /></span>
           <span>RepLog</span>

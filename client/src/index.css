@@ -583,6 +583,26 @@ button.chip:hover { border-color: var(--border-2); color: var(--text); }
 .lp-hero p { color: rgba(255,255,255,0.86); font-size: 1.12rem; line-height: 1.55; max-width: 580px; margin: 0 auto 26px; }
 .btn.light { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.32); color: #fff; }
 .btn.light:hover { background: rgba(255,255,255,0.24); }
+/* Athletic CTA — bold uppercase, capsule shape, shine sweep + "rep" icon lift */
+.btn.gym {
+  text-transform: uppercase; letter-spacing: 0.06em; font-weight: 800;
+  border-radius: var(--pill); padding-left: 22px; padding-right: 22px;
+  position: relative; overflow: hidden;
+  transition: transform 0.2s var(--ease), background 0.16s var(--ease), border-color 0.16s var(--ease), box-shadow 0.2s var(--ease);
+}
+.btn.gym.primary { box-shadow: 0 6px 20px var(--accent-weak); }
+.btn.gym:hover { transform: translateY(-2px); }
+.btn.gym.primary:hover { box-shadow: 0 10px 28px var(--accent-weak); }
+.btn.gym::before {
+  content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(115deg, transparent 32%, rgba(255,255,255,0.4) 50%, transparent 68%);
+  transform: translateX(-130%); pointer-events: none;
+  transition: transform 0.6s var(--ease);
+}
+.btn.gym:hover::before { transform: translateX(130%); }
+.btn.gym:hover .lucide { animation: rep-lift 0.6s ease-in-out infinite alternate; }
+@keyframes rep-lift { from { transform: translateY(0); } to { transform: translateY(-3px); } }
+.btn.light.gym { text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; }
 .lp-stats { display: flex; gap: 36px; justify-content: center; margin-top: 40px; }
 .lp-stats b { font-size: 1.9rem; font-weight: 800; display: block; line-height: 1; }
 .lp-stats span { color: rgba(255,255,255,0.7); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }

@@ -46,7 +46,7 @@ export default function Landing({ onAuth }) {
         </div>
         <div className="row" style={{ gap: 8 }}>
           <button className="btn ghost sm" onClick={() => onAuth("login")}>Sign in</button>
-          <button className="btn primary sm" onClick={() => onAuth("register")}>Get started</button>
+          <button className="btn primary sm gym" onClick={() => onAuth("register")}>Start training</button>
         </div>
       </header>
 
@@ -57,10 +57,10 @@ export default function Landing({ onAuth }) {
           <h1>Train smarter.<br />Track everything.</h1>
           <p>The all-in-one workout logger with animated exercise demos, ready-made programs and an AI coach — in a premium dark app that lives on your phone.</p>
           <div className="row" style={{ gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <button className="btn primary" onClick={() => onAuth("register")}>
-              <Icon name="play" size={18} /> Get started free
+            <button className="btn primary gym" onClick={() => onAuth("register")}>
+              <Icon name="dumbbell" size={18} /> Start lifting — free
             </button>
-            <button className="btn light" onClick={() => onAuth("login")}>I already have an account</button>
+            <button className="btn light gym" onClick={() => onAuth("login")}>Member sign in</button>
           </div>
           <div className="lp-stats">
             <div><b>155</b><span>Exercises</span></div>
@@ -98,7 +98,9 @@ export default function Landing({ onAuth }) {
             Create your free account and log your first session in under a minute.
           </p>
           <div className="row" style={{ gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <button className="btn primary" onClick={() => onAuth("register")}>Create your free account</button>
+            <button className="btn primary gym" onClick={() => onAuth("register")}>
+              <Icon name="dumbbell" size={18} /> Start your journey
+            </button>
             <button className="btn" onClick={() => onAuth("login")}>Sign in</button>
           </div>
         </Reveal>

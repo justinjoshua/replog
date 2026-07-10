@@ -66,8 +66,9 @@ export default function Login({ initialMode = "login", onBack }) {
 
           {error && <div className="auth-error"><Icon name="close" size={15} /> {error}</div>}
 
-          <button className="btn primary block" disabled={busy} style={{ marginTop: 6 }}>
-            {busy ? <><span className="spinner" /> Please wait…</> : (isRegister ? "Create account" : "Sign in")}
+          <button className="btn primary block gym" disabled={busy} style={{ marginTop: 6 }}>
+            {busy ? <><span className="spinner" /> Please wait…</>
+              : <><Icon name="dumbbell" size={17} /> {isRegister ? "Start training" : "Let's train"}</>}
           </button>
         </form>
 

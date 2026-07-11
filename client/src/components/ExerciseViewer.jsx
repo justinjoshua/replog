@@ -36,11 +36,11 @@ function ViewerPanel({ ex, aiOn, closing, onClose }) {
   const gif = exerciseGifs[ex.name];
   const poster = gif ? gif.replace(/\.gif$/, ".jpg") : null;
   const frames = exerciseImages[ex.name];
-  const photo = Array.isArray(frames) ? frames[0] : frames;
+  const two = Array.isArray(frames) && frames.length > 1;   // smooth crossfade demo
+  const still = (Array.isArray(frames) ? frames[0] : frames) || poster;
   const info = exerciseInfo[ex.name];
 
-  const [gifLoaded, setGifLoaded] = useState(false);
-  const [replayKey, setReplayKey] = useState(0);
+  const [mediaLoaded, setMediaLoaded] = useState(false);
   const [guide, setGuide] = useState(null);
   const [guideLoading, setGuideLoading] = useState(false);
 
@@ -88,7 +88,6 @@ function ViewerPanel({ ex, aiOn, closing, onClose }) {
   };
 
   const setsReps = guide?.setsReps || defaultSetsReps(ex.muscleGroup);
-  const media = gif || poster || photo;
 
   return (
     <div className={"viewer-root" + (closing ? " closing" : "")}>
@@ -108,23 +107,28 @@ function ViewerPanel({ ex, aiOn, closing, onClose }) {
         </button>
 
         <div className="viewer-scroll">
-          {/* Media */}
+          {/* Media — smooth start↔end demonstration (no choppy GIF) */}
           <div className="viewer-media">
-            {media ? (
+            {two ? (
               <>
-                {!gifLoaded && <div className="viewer-media-skel skeleton" />}
+                {!mediaLoaded && <div className="viewer-media-skel skeleton" />}
                 <img
-                  key={replayKey}
-                  className={"viewer-gif" + (gifLoaded ? " loaded" : "")}
-                  src={gif ? `${gif}${replayKey ? `?r=${replayKey}` : ""}` : media}
+                  className={"viewer-gif" + (mediaLoaded ? " loaded" : "")}
+                  src={frames[0]}
                   alt={ex.name}
-                  onLoad={() => setGifLoaded(true)}
+                  onLoad={() => setMediaLoaded(true)}
                 />
-                {gif && (
-                  <button className="viewer-replay" onClick={() => { setGifLoaded(false); setReplayKey((k) => k + 1); }}>
-                    <Icon name="play" size={14} /> Replay
-                  </button>
-                )}
+                <img className="viewer-anim" src={frames[1]} alt="" aria-hidden="true" />
+              </>
+            ) : still ? (
+              <>
+                {!mediaLoaded && <div className="viewer-media-skel skeleton" />}
+                <img
+                  className={"viewer-gif" + (mediaLoaded ? " loaded" : "")}
+                  src={still}
+                  alt={ex.name}
+                  onLoad={() => setMediaLoaded(true)}
+                />
               </>
             ) : (
               <div className="viewer-media-empty"><Icon name="dumbbell" size={40} /></div>

@@ -399,6 +399,13 @@ button.chip:hover { border-color: var(--border-2); color: var(--text); }
   opacity: 0; transition: opacity 0.3s var(--ease);
 }
 .viewer-gif.loaded { opacity: 1; }
+/* Overlay frame that gently crossfades in/out to demonstrate the movement */
+.viewer-anim {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; background: #fff; pointer-events: none;
+  animation: viewer-cross 2.8s ease-in-out infinite;
+}
+@keyframes viewer-cross { 0%, 12% { opacity: 0; } 50%, 62% { opacity: 1; } 100% { opacity: 0; } }
 .viewer-replay {
   position: absolute; bottom: 10px; right: 10px;
   display: inline-flex; align-items: center; gap: 5px;

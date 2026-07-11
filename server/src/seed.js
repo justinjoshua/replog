@@ -198,6 +198,18 @@ const GROUPS = [
       ["Smith Machine Upright Row", "Machine", "Beginner"],
     ],
   },
+  {
+    group: "Front Raise",
+    muscleGroup: "Shoulders",
+    secondary: ["Upper Chest"],
+    icon: "🙌",
+    variations: [
+      ["Dumbbell Front Raise", "Dumbbell", "Beginner"],
+      ["Cable Front Raise", "Cable", "Beginner"],
+      ["Plate Front Raise", "Other", "Beginner"],
+      ["Barbell Front Raise", "Barbell", "Beginner"],
+    ],
+  },
 
   // ---------------- BICEPS ----------------
   {

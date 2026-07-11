@@ -75,6 +75,9 @@ export default function ProgramDetail() {
 
       {/* Training days */}
       <h2 className="section-title">Training days</h2>
+      <p className="faint" style={{ marginTop: -8, marginBottom: 14, fontSize: "0.86rem" }}>
+        Sets × reps · rest · <strong>RIR</strong> = reps in reserve (how many reps to leave short of failure).
+      </p>
       {program.dayDefs.map((day) => (
         <div className="card" key={day.key} style={{ marginBottom: 16 }}>
           <div className="row" style={{ justifyContent: "space-between", marginBottom: 12 }}>
@@ -86,7 +89,7 @@ export default function ProgramDetail() {
           <div className="table-scroll">
             <table>
               <thead>
-                <tr><th style={{ width: 34 }}>#</th><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr>
+                <tr><th style={{ width: 34 }}>#</th><th>Exercise</th><th>Sets</th><th>Reps</th><th>RIR</th><th>Rest</th></tr>
               </thead>
               <tbody>
                 {day.exercises.map((ex, i) => (
@@ -95,6 +98,7 @@ export default function ProgramDetail() {
                     <td style={{ fontWeight: 600 }}>{ex.name}</td>
                     <td>{ex.sets}</td>
                     <td className="muted">{ex.reps}</td>
+                    <td className="muted">{ex.rir || "—"}</td>
                     <td className="muted">{ex.rest}</td>
                   </tr>
                 ))}

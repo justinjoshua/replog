@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth.jsx";
-import Logo from "../components/Logo.jsx";
 import Icon from "../components/Icon.jsx";
 import { LOGIN_BG } from "../lib/images.js";
 
@@ -40,8 +39,7 @@ export default function Login({ initialMode = "login", onBack }) {
           </button>
         )}
         <div className="auth-brand">
-          <span className="logo"><Logo size={24} /></span>
-          <span>RepLog</span>
+          <span className="wordmark">Rep<span className="wm-accent">Log</span></span>
         </div>
         <h1 className="auth-title">{isRegister ? "Create your account" : "Welcome back"}</h1>
         <p className="auth-sub">

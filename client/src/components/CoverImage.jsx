@@ -4,17 +4,16 @@ import { exerciseGifs } from "../lib/exerciseGifs.js";
 import { exerciseImages } from "../lib/exerciseImages.js";
 
 /**
- * Static exercise cover for cards — a clean poster frame (first frame of the
- * ExerciseDB GIF), falling back to the free-exercise-db photo, then line-art.
- * The animated GIF is intentionally NOT shown here; it lives in the viewer panel
- * so the grid stays fast and uncluttered.
+ * Static exercise cover for cards — prefers a real photograph (free-exercise-db),
+ * falling back to the ExerciseDB poster frame, then line-art. Static only; the
+ * animated demo lives in the viewer panel so the grid stays fast.
  */
 export default function CoverImage({ name, group, muscle }) {
   const gif = exerciseGifs[name];
   const poster = gif ? gif.replace(/\.gif$/, ".jpg") : null;
   const frames = exerciseImages[name];
   const photo = Array.isArray(frames) ? frames[0] : frames;
-  const src = poster || photo || null;
+  const src = photo || poster || null;
 
   const [failed, setFailed] = useState(false);
   const [loaded, setLoaded] = useState(false);

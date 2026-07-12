@@ -80,6 +80,8 @@ const GROUPS = [
     variations: [
       ["Lat Pulldown (Wide Grip)", "Cable", "Beginner"],
       ["Lat Pulldown (Close Grip)", "Cable", "Beginner"],
+      ["V-Bar Lat Pulldown", "Cable", "Beginner"],
+      ["Reverse-Grip Lat Pulldown", "Cable", "Beginner", ["Biceps"]],
       ["Neutral-Grip Lat Pulldown", "Cable", "Beginner"],
       ["Machine Lat Pulldown", "Machine", "Beginner"],
       ["Hammer Strength Pulldown", "Machine", "Beginner"],
@@ -100,6 +102,7 @@ const GROUPS = [
       ["T-Bar Row", "Barbell", "Intermediate"],
       ["Seated Cable Row (Wide)", "Cable", "Beginner"],
       ["Seated Cable Row (Close)", "Cable", "Beginner"],
+      ["Mag-Grip Cable Row", "Cable", "Beginner"],
       ["Chest-Supported Row Machine", "Machine", "Beginner"],
       ["Hammer Strength Row", "Machine", "Beginner"],
       ["Seated Machine Row", "Machine", "Beginner"],
@@ -207,7 +210,6 @@ const GROUPS = [
       ["Dumbbell Front Raise", "Dumbbell", "Beginner"],
       ["Cable Front Raise", "Cable", "Beginner"],
       ["Plate Front Raise", "Other", "Beginner"],
-      ["Barbell Front Raise", "Barbell", "Beginner"],
     ],
   },
 

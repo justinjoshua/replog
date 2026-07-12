@@ -1,4 +1,3 @@
-import Logo from "../components/Logo.jsx";
 import Icon from "../components/Icon.jsx";
 import Reveal from "../components/Reveal.jsx";
 import { LANDING_HERO, LANDING_SHOTS } from "../lib/images.js";
@@ -41,8 +40,7 @@ export default function Landing({ onAuth }) {
     <div className="landing">
       <header className="lp-nav">
         <div className="brand">
-          <span className="logo"><Logo size={20} /></span>
-          <span>RepLog</span>
+          <span className="wordmark">Rep<span className="wm-accent">Log</span></span>
         </div>
         <div className="row" style={{ gap: 8 }}>
           <button className="btn ghost sm" onClick={() => onAuth("login")}>Sign in</button>

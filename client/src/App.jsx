@@ -3,7 +3,6 @@ import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import { ToastProvider } from "./toast.jsx";
 import { api } from "./api.js";
 import Icon from "./components/Icon.jsx";
-import Logo from "./components/Logo.jsx";
 import ThemePicker from "./components/ThemePicker.jsx";
 import { ExerciseViewerProvider } from "./components/ExerciseViewer.jsx";
 import { useTheme } from "./hooks/useTheme.js";
@@ -72,8 +71,7 @@ function Shell() {
         {/* Desktop side navigation */}
         <aside className="sidebar">
           <div className="brand">
-            <span className="logo"><Logo size={22} /></span>
-            <span>RepLog</span>
+            <span className="wordmark">Rep<span className="wm-accent">Log</span></span>
           </div>
           <div className="nav-section">Menu</div>
           {NAV.map((n) => (
@@ -110,8 +108,7 @@ function Shell() {
         {/* Mobile top bar */}
         <header className="topbar">
           <div className="brand">
-            <span className="logo"><Logo size={20} /></span>
-            <span>RepLog</span>
+            <span className="wordmark">Rep<span className="wm-accent">Log</span></span>
           </div>
           <div className="row" style={{ gap: 8 }}>
             <ThemePicker themeKey={themeKey} onPick={setThemeKey} align="down" compact />

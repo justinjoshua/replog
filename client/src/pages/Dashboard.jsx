@@ -14,7 +14,7 @@ import Icon from "../components/Icon.jsx";
 import ProgressRing from "../components/ProgressRing.jsx";
 import ProgramCard from "../components/ProgramCard.jsx";
 import { LineSkeleton } from "../components/Skeleton.jsx";
-import { HERO_IMG, GALLERY } from "../lib/images.js";
+import { HERO_IMG } from "../lib/images.js";
 import { PROGRAMS, getProgram } from "../lib/programs.js";
 import { queueProgramDay } from "../lib/startProgram.js";
 import { useToast } from "../toast.jsx";
@@ -95,15 +95,6 @@ export default function Dashboard() {
               : "Log your first session to start tracking your progress."}
           </p>
           <Link to="/log" className="btn primary"><Icon name="play" size={18} /> Quick start</Link>
-        </div>
-      </div>
-
-      {/* Auto-scrolling training gallery */}
-      <div className="marquee">
-        <div className="marquee-track">
-          {[...GALLERY, ...GALLERY].map((src, i) => (
-            <img key={i} src={src} alt="" loading="lazy" />
-          ))}
         </div>
       </div>
 

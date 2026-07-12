@@ -72,9 +72,20 @@ export default function Exercises() {
     return () => clearTimeout(t);
   }, [muscle, equipment, q]);
 
+  // Favorites rail also respects the active filters, so "Chest" really shows
+  // only chest — favorites and grid stay consistent.
   const favCards = useMemo(
-    () => favorites.map((n) => allByName[n]).filter(Boolean),
-    [favorites, allByName]
+    () =>
+      favorites
+        .map((n) => allByName[n])
+        .filter(Boolean)
+        .filter(
+          (ex) =>
+            (!muscle || ex.muscleGroup === muscle) &&
+            (!equipment || ex.equipment === equipment) &&
+            (!q || ex.name.toLowerCase().includes(q.toLowerCase()))
+        ),
+    [favorites, allByName, muscle, equipment, q]
   );
 
   const totalVariations = useMemo(

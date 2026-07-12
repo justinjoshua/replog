@@ -97,6 +97,17 @@ small { font-size: 0.85rem; }
   font-size: 1.15rem;
   letter-spacing: -0.01em;
 }
+
+/* Text wordmark logo */
+.wordmark {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+.wm-accent { color: var(--accent); }
+[data-metal] .wm-accent { color: var(--accent); }
 .brand .logo {
   width: 36px;
   height: 36px;
@@ -397,15 +408,18 @@ button.chip:hover { border-color: var(--border-2); color: var(--text); }
 .viewer-gif {
   width: 100%; height: 100%; object-fit: contain; background: #fff;
   opacity: 0; transition: opacity 0.3s var(--ease);
+  will-change: transform, opacity; backface-visibility: hidden;
 }
 .viewer-gif.loaded { opacity: 1; }
-/* Overlay frame that gently crossfades in/out to demonstrate the movement */
+/* Overlay = end position; smoothly dissolves in/out at full refresh rate so the
+   whole figure stays visible (no zoom, no crop). */
 .viewer-anim {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: contain; background: #fff; pointer-events: none;
-  animation: viewer-cross 2.8s ease-in-out infinite;
+  object-fit: contain; background: #fff; pointer-events: none; opacity: 0;
+  will-change: opacity; backface-visibility: hidden;
+  animation: viewer-cross 3s ease-in-out infinite;
 }
-@keyframes viewer-cross { 0%, 12% { opacity: 0; } 50%, 62% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes viewer-cross { 0%, 14% { opacity: 0; } 50%, 64% { opacity: 1; } 100% { opacity: 0; } }
 .viewer-replay {
   position: absolute; bottom: 10px; right: 10px;
   display: inline-flex; align-items: center; gap: 5px;
@@ -661,7 +675,7 @@ button.chip:hover { border-color: var(--border-2); color: var(--text); }
 [data-metal] .ex-cover { background: radial-gradient(120% 90% at 50% 30%, var(--accent-weak), transparent 72%), var(--bg-2); }
 .cover-img {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; display: block; background: #eef0f3;
+  object-fit: contain; display: block; background: #eef0f3;
   opacity: 0; transition: opacity 0.45s var(--ease);
 }
 .cover-img.loaded { opacity: 1; }

@@ -1,17 +1,12 @@
 import "dotenv/config";
-import express from "express";
-import cors from "cors";
+import { createApp } from "./app.js";
 import { connectDB } from "./db.js";
 import { seedExercises } from "./seed.js";
 
-import authRouter from "./routes/auth.js";
-import exercisesRouter from "./routes/exercises.js";
-import workoutsRouter from "./routes/workouts.js";
-import statsRouter from "./routes/stats.js";
-import aiRouter from "./routes/ai.js";
-
 const PORT = process.env.PORT || 4000;
 
+// Local dev / self-hosted entry: connect the DB, seed the library once, then
+// bind a long-running HTTP server. (Vercel uses serverless.js instead.)
 async function main() {
   const { stop } = await connectDB();
   await seedExercises(); // idempotent: only inserts the starter library once
@@ -32,23 +27,7 @@ async function main() {
   process.on("SIGINT", () => shutdown("SIGINT"));
   process.on("SIGTERM", () => shutdown("SIGTERM"));
 
-  const app = express();
-  app.use(cors());
-  app.use(express.json({ limit: "1mb" }));
-
-  app.get("/api/health", (req, res) => res.json({ ok: true }));
-  app.use("/api/auth", authRouter);
-  app.use("/api/exercises", exercisesRouter);
-  app.use("/api/workouts", workoutsRouter);
-  app.use("/api/stats", statsRouter);
-  app.use("/api/ai", aiRouter);
-
-  // Central error handler
-  app.use((err, req, res, next) => {
-    console.error("[error]", err);
-    res.status(500).json({ error: err.message || "Server error" });
-  });
-
+  const app = createApp();
   app.listen(PORT, () =>
     console.log(`[server] API listening on http://localhost:${PORT}`)
   );

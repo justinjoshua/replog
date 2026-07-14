@@ -409,7 +409,19 @@ function buildLibrary() {
 }
 
 export async function seedExercises() {
-  const library = buildLibrary();
+  // A movement's compound can legitimately belong to two groups (e.g. a
+  // Close-Grip Bench Press fits both Bench Press and Triceps), but the unique
+  // `name` index only allows one doc per name. Keep the first occurrence and
+  // drop later duplicates so a fresh-DB seed can't hit a duplicate-key error.
+  const seen = new Set();
+  const library = buildLibrary().filter((d) => {
+    if (seen.has(d.name)) {
+      console.warn(`[seed] skipping duplicate exercise name: ${d.name}`);
+      return false;
+    }
+    seen.add(d.name);
+    return true;
+  });
   const names = library.map((d) => d.name);
 
   // Self-healing & idempotent: prune stale seed entries (removed/renamed as the
